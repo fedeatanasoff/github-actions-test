@@ -1,16 +1,24 @@
 name: first workflow
 
-on: [push] 
+on: [push, pull_request] 
 
 jobs: 
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:    
+
+      matrix: 
+    
+        os: [ubuntu-latest, windows-latest]
+
+    name: ${{ matrix.os}}
 
     steps:
-      
+    
       - uses: actions/checkout@v2
-      
+    
       - name: hello friend
-        run: echo "hello friend from ${{github.workflow}}"
+        run: echo "hello friend from ${{github.workflow}} in ${{ matrix.os }}"
